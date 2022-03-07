@@ -15,6 +15,9 @@
 # production
 /build
 
+# design material
+/public/dev
+
 # misc
 .DS_Store
 

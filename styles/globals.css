@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base{
+    @font-face {
+      font-family: Empty;
+      src: url(/fonts/Empty.woff);
+    }
+    @font-face {
+      font-family: Sansation;
+      src: url(/fonts/Sansation-Regular.ttf);
+    }
+}
