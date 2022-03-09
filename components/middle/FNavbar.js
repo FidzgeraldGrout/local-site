@@ -16,7 +16,7 @@ export default function FNavbar({ isAuthorized }) {
                     </div>
                 </div>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                    <Link href={ isAuthorized ? "/" : "/authorization"} >
+                    <Link href={ isAuthorized ? "/" : "/login"} >
                         <a className='text-color_G hover:bg-color_C hover:text-color_G px-3 py-2 rounded-md text-sm font-bold font-font_B'>
                             { isAuthorized ? "На главную" : "Войти"}
                         </a>

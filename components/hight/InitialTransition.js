@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from 'react';
-import { FSplitText } from "./FSplitText";
+import { FSplitText } from "../low/FSplitText";
 
 const content = {
   initial: {

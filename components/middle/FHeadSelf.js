@@ -1,18 +1,5 @@
-import React from "react";
 import { motion } from "framer-motion";
-import { FSplitText } from "./FSplitText";
-
-const title = {
-    initial: { y: -20, opacity: 0 },
-    animate: {
-        y: 0,
-        opacity: 1,
-        transition: {
-            duration: 0.7,
-            ease: [0.6, -0.05, 0.01, 0.99],
-        },
-    },
-};
+import { FSplitText } from "../low/FSplitText";
 
 const img = {
     initial: {
@@ -44,9 +31,8 @@ const text = {
 
 export default function FHeadSelf() {
     return (
-        <div
-            className="flex-1"
-        >
+        <div>
+
             <motion.img
                 className="mx-auto pt-10"
                 src='/imageSelf.png'
