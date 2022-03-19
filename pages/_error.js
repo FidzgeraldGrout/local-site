@@ -2,13 +2,13 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { motion } from "framer-motion";
 
-const content = (isFirstMount) => ({
+const content = {
   animate: {
     transition: {
-      staggerChildren: isFirstMount ? 2 : 0.5,
+      staggerChildren: 0.5,
     },
   },
-});
+};
 
 const title = {
   initial: { y: -100, opacity: 0 },
@@ -34,7 +34,7 @@ const text = {
   },
 };
 
-export default function Custom404({ isFirstMount }) {
+function Error({ statusCode, message }) {
   return (
     <div className="m-auto">
       <Head>
@@ -47,16 +47,16 @@ export default function Custom404({ isFirstMount }) {
         <motion.div
           initial="initial"
           animate="animate"
-          variants={content(isFirstMount)}
+          variants={content}
           className="text-center"
         >
 
           <motion.h1 variants={title} className="text-color_B text-6xl sm:text-9xl font-font_B">
-            404
+            {statusCode}
           </motion.h1>
 
           <motion.h2 variants={text} className="text-color_B text-2xl sm:text-3xl font-font_B">
-            Страница не найдена
+            {message}
           </motion.h2>
 
           <Link href="/">
@@ -71,3 +71,11 @@ export default function Custom404({ isFirstMount }) {
     </div>
   )
 }
+
+Error.getInitialProps = ({ res, err }) => {
+  const message = err && err.message ? err.message : res && res.message ? res.message : "Непредвиденная ошибка"
+  const statusCode = err && err.statusCode ? err.statusCode : res && res.statusCode ? res.statusCode :  404
+  return { statusCode, message }
+}
+
+export default Error

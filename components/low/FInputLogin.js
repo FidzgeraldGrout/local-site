@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-const minlength = 4;
-const maxlength = 30;
+const minlength = process.env.NEXT_PUBLIC_MIN_LENGTH_LOGIN;
+const maxlength = process.env.NEXT_PUBLIC_MAX_LENGTH_LOGIN;
 
 export function FInputLogin({ onLoginChange }) {
 
@@ -13,7 +13,6 @@ export function FInputLogin({ onLoginChange }) {
 
         let isValid = (value.length > minlength)
             && (value.length < maxlength)
-            && (/\d/.test(value))
             && (/[a-z]/.test(value))
             && (/^[A-Za-z0-9]+$/.test(value));
 

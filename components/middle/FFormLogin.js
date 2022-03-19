@@ -1,7 +1,10 @@
 import { FInputEmail } from "../low/FInputEmail";
 import { FInputPassword } from "../low/FInputPassword";
+import { useStore } from "../hight/StoreProvider";
+import { ApiError } from "../../middleware/exceptions";
+import { useRouter } from "next/router";
+import { useState } from 'react'
 import { motion } from "framer-motion";
-import { useState, useEffect } from 'react'
 import Link from 'next/link';
 
 const inputs = {
@@ -17,6 +20,26 @@ const inputs = {
 };
 
 export default function FFormLogin() {
+
+    /*
+        Использование глобальных данных
+    */
+
+    const router = useRouter();
+
+    const mobxUser = useStore().MOBXUser;
+
+    /*
+        Данные формы
+    */
+
+    const [onSubmit, setOnSubmit] = useState(false);
+
+    const [onError, setOnError] = useState('');
+
+    /*
+        Данные инпутов
+    */
 
     const [inputEmail, setInputEmail] = useState('');
 
@@ -36,16 +59,53 @@ export default function FFormLogin() {
         setInputValidatePassword(validate)
     }
 
+
+    /*
+        Функция регистрации
+    */
+
+    const login = async (event) => {
+
+        event.preventDefault()
+
+        setOnSubmit(true);
+
+        try {
+
+            await mobxUser.login(inputEmail, inputPassword);
+
+            router.push('/profile/activatelink');
+
+        } catch (error) {
+
+            if (error instanceof ApiError) {
+
+                setOnError(error.message);
+
+            } else {
+                throw error
+            }
+
+        } finally {
+            setOnSubmit(false);
+        }
+    }
+
+    /*
+        ---------------
+    */
+
     return (
-        <div
+        <fieldset
             className="mx-auto md:w-2/3 lg:w-1/3 text-color_A px-5"
+            disabled={onSubmit}
         >
 
             <motion.div
                 variants={inputs}
-                className="flex flex-col w-full text-center"
+                className="flex flex-col w-full text-color_A text-center"
             >
-                <h1 className="mb-4 text-2xl px-5 pt-10 font-medium text-color_A sm:text-3xl title-font">
+                <h1 className="mb-4 text-2xl px-5 pt-10 font-medium sm:text-3xl title-font">
                     Вход в аккаунт
                 </h1>
             </motion.div>
@@ -69,11 +129,12 @@ export default function FFormLogin() {
             </motion.div>
 
             <motion.div
-                className="flex flex-wrap justify-between items-center"
+                className="flex flex-wrap justify-between items-center mb-4"
                 variants={inputs}
             >
                 <button
                     disabled={!(isInputValidateEmail && isInputValidatePassword)}
+                    onClick={login}
                     className="w-full md:w-1/3 lg:w-full xl:w-1/3
                         inline-flex items-center justify-center px-4 py-2 bg-red-600 
                         font-semibold capitalize text-white
@@ -83,7 +144,7 @@ export default function FFormLogin() {
                 >
                     Войти
                 </button>
-                <Link href="/registration" >
+                <Link href="/authorization/registration" >
                     <a
                         className="w-full md:w-2/3 lg:w-full xl:w-2/3 
                         text-center md:text-right lg:text-center xl:text-right
@@ -95,7 +156,17 @@ export default function FFormLogin() {
                 </Link>
             </motion.div>
 
-        </div>
+            <motion.div
+                animate={ onError? 'animate' : 'initial' }
+                variants={ inputs }
+                className="flex flex-col w-full text-center"
+            >
+                <h1 className="text-color_C italic">
+                    {onError}
+                </h1>
+            </motion.div>
+
+        </fieldset>
     );
 
 };

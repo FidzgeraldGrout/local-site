@@ -21,8 +21,8 @@ const blackBoxTop = {
     opacity: 1
   },
   animate: {
-    height: "4rem",
-    opacity: [ 1, 1, 1, 0],
+    height: "5rem",
+    // opacity: [1, 1, 1, 0],
     transition: {
       delay: 1,
       duration: 3,
@@ -38,8 +38,8 @@ const blackBoxBottom = {
     opacity: 1
   },
   animate: {
-    height: "3rem",
-    opacity: [ 1, 1, 1, 0],
+    height: "4rem",
+    // opacity: [1, 1, 1, 0],
     transition: {
       delay: 1,
       duration: 3,
@@ -68,13 +68,16 @@ export default function InitialTransition() {
   return (
     <motion.div
       className=""
+      id="InitialTransition"
       initial="initial"
       animate="animate"
       variants={content}
       onAnimationStart={() => document.body.classList.add("overflow-hidden")}
-      onAnimationComplete={() =>
+      onAnimationComplete={() => {
         document.body.classList.remove("overflow-hidden")
-      }
+        // document.querySelector("#InitialTransition").classList.add("absolute");
+        document.querySelector("#InitialTransition").classList.add("invisible");
+      }}
     >
       <motion.div
         className="absolute z-50 flex items-center justify-center w-full bg-color_A"

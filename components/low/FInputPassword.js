@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-const minlength = 6;
-const maxlength = 30;
+const minlength = process.env.NEXT_PUBLIC_MIN_LENGTH_PASSWORD;
+const maxlength = process.env.NEXT_PUBLIC_MAX_LENGTH_PASSWORD;
 
 export function FInputPassword({ onPasswordChange }) {
 
@@ -15,7 +15,8 @@ export function FInputPassword({ onPasswordChange }) {
             && (value.length < maxlength)
             && (/\d/.test(value))
             && (/[a-z]/.test(value))
-            && (/[A-Z]/.test(value));
+            && (/[A-Z]/.test(value))
+            && (/^[A-Za-z0-9!"#$%&'()*+,./:;<=>?@\\^_`{|}~]+$/.test(value));
 
         setInputValidate(value == "" || isValid);
         onPasswordChange(value, isValid);

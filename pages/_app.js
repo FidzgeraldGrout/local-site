@@ -1,13 +1,13 @@
 import '../styles/globals.css';
 import { useState, useEffect } from 'react';
 import { AnimatePresence } from "framer-motion";
-import InitialTransition from '../components/hight/InitialTransition'
-import Layout from "../components/hight/Layout";
-import Custom404 from './404';
+import AppLayout from "../components/hight/AppLayout";
+import { StoreProvider } from '../components/hight/StoreProvider';
 
 export default function App({ Component, pageProps, router }) {
 
-  const [isFirstMount, setIsFirstMount] = useState(Component != Custom404);
+
+  const [isFirstMount, setIsFirstMount] = useState(true);
 
   useEffect(() => {
 
@@ -24,17 +24,20 @@ export default function App({ Component, pageProps, router }) {
   }, []);
 
   return (
-    <AnimatePresence exitBeforeEnter>
-      {isFirstMount && <InitialTransition />}
-        <Layout
+    <StoreProvider {...pageProps}>
+      <AnimatePresence exitBeforeEnter>
+        <AppLayout
           key="Layout"
+          isFirstMount={isFirstMount}
         >
           <Component
             isFirstMount={isFirstMount}
             key={router.route}
             {...pageProps}
           />
-        </Layout>
-    </AnimatePresence>
+        </AppLayout>
+      </AnimatePresence>
+    </StoreProvider>
   )
+
 }

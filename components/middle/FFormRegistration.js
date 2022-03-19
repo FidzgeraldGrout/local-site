@@ -1,12 +1,18 @@
 import { FInputLogin } from "../low/FInputLogin";
 import { FInputEmail } from "../low/FInputEmail";
 import { FInputPassword } from "../low/FInputPassword";
+import { useStore } from "../hight/StoreProvider";
+import { ApiError } from "../../middleware/exceptions";
+import { useRouter } from "next/router";
+import { useState } from 'react'
 import { motion } from "framer-motion";
-import { useState, useEffect } from 'react'
 import Link from 'next/link';
 
 const inputs = {
-    initial: { y: -20, opacity: 0 },
+    initial: { 
+        y: -20, 
+        opacity: 0 
+    },
     animate: {
         y: 0,
         opacity: 1,
@@ -19,6 +25,26 @@ const inputs = {
 
 export default function FFormRegistration() {
 
+    /*
+        Использование глобальных данных
+    */
+
+    const router = useRouter();
+
+    const mobxUser = useStore().MOBXUser;
+
+    /*
+        Данные формы
+    */
+
+    const [onSubmit, setOnSubmit] = useState(false);
+
+    const [onError, setOnError] = useState('');
+
+    /*
+        Данные инпутов
+    */
+
     const [inputLogin, setInputLogin] = useState('');
 
     const [isInputValidateLogin, setInputValidateLogin] = useState(false);
@@ -26,6 +52,7 @@ export default function FFormRegistration() {
     const loginChange = (email, validate) => {
         setInputLogin(email);
         setInputValidateLogin(validate)
+        setOnError('');
     }
 
     const [inputEmail, setInputEmail] = useState('');
@@ -35,6 +62,7 @@ export default function FFormRegistration() {
     const emailChange = (email, validate) => {
         setInputEmail(email);
         setInputValidateEmail(validate)
+        setOnError('');
     }
 
     const [inputPassword, setInputPassword] = useState('');
@@ -44,11 +72,48 @@ export default function FFormRegistration() {
     const passwordChange = (email, validate) => {
         setInputPassword(email);
         setInputValidatePassword(validate)
+        setOnError('');
     }
 
+    /*
+        Функция регистрации
+    */
+
+    const registration = async (event) => {
+
+        event.preventDefault()
+
+        setOnSubmit(true);
+
+        try {
+
+            await mobxUser.registration(inputEmail, inputPassword);
+
+            router.push('/profile/activatelink');
+
+        } catch (error) {
+
+            if( error instanceof ApiError){
+
+                setOnError(error.message);
+
+            }else{
+                throw error
+            }
+
+        }finally{
+            setOnSubmit(false);
+        }
+    }
+
+    /*
+        ---------------
+    */
+
     return (
-        <div
+        <fieldset 
             className="mx-auto w-full md:w-2/3 lg:w-1/3 text-color_A px-5"
+            disabled={onSubmit}
         >
 
             <motion.div
@@ -88,11 +153,12 @@ export default function FFormRegistration() {
             </motion.div>
 
             <motion.div
-                className="flex flex-wrap justify-between items-center"
+                className="flex flex-wrap justify-between items-center mb-4"
                 variants={inputs}
             >
                 <button
                     disabled={!(isInputValidateEmail && isInputValidatePassword && isInputValidateLogin)}
+                    onClick={registration}
                     className="w-full md:w-1/3 lg:w-full xl:w-1/3
                         inline-flex items-center justify-center px-4 py-2 bg-red-600 
                         font-semibold capitalize text-white
@@ -102,7 +168,7 @@ export default function FFormRegistration() {
                 >
                     Зарегистрировать
                 </button>
-                <Link href="/login" >
+                <Link href="/authorization/login" >
                     <a
                         className="w-full md:w-2/3 lg:w-full xl:w-2/3 
                         text-center md:text-right lg:text-center xl:text-right
@@ -114,7 +180,17 @@ export default function FFormRegistration() {
                 </Link>
             </motion.div>
 
-        </div>
+            <motion.div
+                animate={ onError? 'animate' : 'initial' }
+                variants={ inputs }
+                className="flex flex-col w-full text-center"
+            >
+                <h1 className="text-color_C italic">
+                    {onError}
+                </h1>
+            </motion.div>
+
+        </fieldset>
     );
 
 };

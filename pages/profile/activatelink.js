@@ -1,35 +1,31 @@
-import Head from 'next/head';
-import FHeadSelf from '../components/middle/FHeadSelf';
-import InitialTransition from '../components/hight/InitialTransition'
+import Head from 'next/head'
+import FFormActivateLink from '../../components/middle/FFormActivateLink';
 import { motion } from "framer-motion";
 
 const content = (isFirstMount) => ({
   animate: {
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: isFirstMount ? 2.8 : 0
-    },
-  },
+      staggerChildren: isFirstMount ? 0.5 : 0.15
+    }
+  }
 });
 
-export default function Index({ isFirstMount }) {
-
+export default function ActivateLink({ isFirstMount }) {
   return (
     <div
       className="flex-1"
     >
       <Head>
-        <title>Портфолио</title>
+        <title>Активация</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <motion.section exit={{ opacity: 0 }}>
-        {isFirstMount && <InitialTransition />}
         <motion.div
           initial="initial"
           animate="animate"
           variants={content(isFirstMount)}
         >
-          <FHeadSelf />
+          <FFormActivateLink />
         </motion.div>
       </motion.section>
     </div>
