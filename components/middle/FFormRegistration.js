@@ -31,13 +31,11 @@ export default function FFormRegistration() {
 
     const router = useRouter();
 
-    const mobxUser = useStore().MOBXUser;
+    const { MOBXUser, MOBXui } = useStore();
 
     /*
         Данные формы
     */
-
-    const [onSubmit, setOnSubmit] = useState(false);
 
     const [onError, setOnError] = useState('');
 
@@ -82,14 +80,14 @@ export default function FFormRegistration() {
     const registration = async (event) => {
 
         event.preventDefault()
-
-        setOnSubmit(true);
+        
+        MOBXui.setLoading();
 
         try {
 
-            await mobxUser.registration(inputEmail, inputPassword);
+            await MOBXUser.registration( inputLogin, inputEmail, inputPassword );
 
-            router.push('/profile/activatelink');
+            router.push('/authorization/activatelink');
 
         } catch (error) {
 
@@ -102,7 +100,9 @@ export default function FFormRegistration() {
             }
 
         }finally{
-            setOnSubmit(false);
+        
+            MOBXui.setLoading();
+            
         }
     }
 
@@ -111,9 +111,8 @@ export default function FFormRegistration() {
     */
 
     return (
-        <fieldset 
+        <div 
             className="mx-auto w-full md:w-2/3 lg:w-1/3 text-color_A px-5"
-            disabled={onSubmit}
         >
 
             <motion.div
@@ -190,7 +189,7 @@ export default function FFormRegistration() {
                 </h1>
             </motion.div>
 
-        </fieldset>
+        </div>
     );
 
 };

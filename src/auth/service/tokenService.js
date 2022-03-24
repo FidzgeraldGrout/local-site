@@ -18,7 +18,6 @@ export async function generateTokens(payload) {
         .setExpirationTime(process.env.NEXT_PRIVATE_JWT_REFRESH_EXPIRES_IN)
         .sign(new TextEncoder().encode(process.env.NEXT_PRIVATE_JWT_REFRESH_SECRET));
 
-
     return {
         accessToken,
         refreshToken

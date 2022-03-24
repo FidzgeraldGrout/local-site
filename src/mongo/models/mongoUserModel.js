@@ -4,6 +4,10 @@ const minLengthEmail = process.env.NEXT_PUBLIC_MIN_LENGTH_EMAIL;
 const maxLengthEmail = process.env.NEXT_PUBLIC_MAX_LENGTH_EMAIL;
 
 const MongooseSchema = new mongoose.Schema({
+  login: {
+    type: String,
+    required: [true, 'Пожалуйста, введите логин']
+  },
   email: {
     type: String,
     unique: [true, 'Электронная почта уже зарегестрирована'],

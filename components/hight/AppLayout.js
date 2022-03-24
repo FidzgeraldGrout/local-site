@@ -1,19 +1,38 @@
 import React from "react";
 import FFooter from "../middle/FFooter";
-import FNavBarExample from "../middle/FNavBarExample";
 import FNavbar from "../middle/FNavbar";
 import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { useStore } from "./StoreProvider";
+import FLoadingScreen from "../middle/FLoadingScreen";
 
 export default function AppLayout({ isFirstMount, children }) {
 
-    const mobxUser = useStore().MOBXUser;
+    const router = useRouter();
+
+    const { MOBXUser, MOBXui } = useStore();
 
     useEffect(() => {
 
         if (isFirstMount && localStorage.getItem('token')) {
 
-            mobxUser.checkAuth();
+            MOBXui.setLoading();
+
+            MOBXUser.checkAuth().then(() => {
+
+                MOBXui.setLoading();
+
+            }).catch(() => {
+
+                MOBXui.setLoading();
+
+            })
+
+        }
+
+        return () => {
+
+            MOBXUser.stopRefreshAuth();
 
         }
 
@@ -21,8 +40,8 @@ export default function AppLayout({ isFirstMount, children }) {
 
     return (
         <div className="flex flex-col min-h-screen">
-            <FNavBarExample/>
-            <FNavbar/>
+            <FLoadingScreen />
+            <FNavbar />
             <main className="flex-1 flex" >{children}</main>
             <FFooter />
         </div>

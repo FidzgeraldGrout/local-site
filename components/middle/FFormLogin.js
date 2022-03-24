@@ -19,7 +19,7 @@ const inputs = {
     },
 };
 
-export default function FFormLogin() {
+export default function FFormLogin( { redirectAuth } ) {
 
     /*
         Использование глобальных данных
@@ -27,13 +27,11 @@ export default function FFormLogin() {
 
     const router = useRouter();
 
-    const mobxUser = useStore().MOBXUser;
-
+    const { MOBXUser, MOBXui } = useStore();
+    
     /*
         Данные формы
     */
-
-    const [onSubmit, setOnSubmit] = useState(false);
 
     const [onError, setOnError] = useState('');
 
@@ -67,14 +65,16 @@ export default function FFormLogin() {
     const login = async (event) => {
 
         event.preventDefault()
-
-        setOnSubmit(true);
+        
+        MOBXui.setLoading();
 
         try {
 
-            await mobxUser.login(inputEmail, inputPassword);
+            await MOBXUser.login(inputEmail, inputPassword).then(()=>{
 
-            router.push('/profile/activatelink');
+                router.push( redirectAuth ? redirectAuth : '/dashboard' );
+                
+            })
 
         } catch (error) {
 
@@ -87,7 +87,9 @@ export default function FFormLogin() {
             }
 
         } finally {
-            setOnSubmit(false);
+
+            MOBXui.setLoading();
+
         }
     }
 
@@ -96,9 +98,8 @@ export default function FFormLogin() {
     */
 
     return (
-        <fieldset
+        <div
             className="mx-auto md:w-2/3 lg:w-1/3 text-color_A px-5"
-            disabled={onSubmit}
         >
 
             <motion.div
@@ -166,7 +167,7 @@ export default function FFormLogin() {
                 </h1>
             </motion.div>
 
-        </fieldset>
+        </div>
     );
 
 };

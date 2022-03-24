@@ -1,7 +1,9 @@
 import { createContext, useContext } from 'react';
-import MOBXUser from '../../src/auth/mobx/mobxUser';
+import MOBXui from '../../src/mobx/mobxUI';
+import MOBXuser from '../../src/mobx/mobxUser';
 
 let mobxUser;
+let mobxUI;
 export const StoreContext = createContext();
 
 export function useStore() {
@@ -20,19 +22,26 @@ export function StoreProvider({ children, initialState: initialData }) {
 }
 
 function initializeStore(initialData = null) {
-  const _mobxUser = mobxUser ?? new MOBXUser()
+  const _mobxUser = mobxUser ?? new MOBXuser();
+  const _mobxUI = mobxUI ?? new MOBXui();
   
   // If your page has Next.js data fetching methods that use a Mobx store, it will
   // get hydrated here, check `pages/ssg.js` and `pages/ssr.js` for more details
   if (initialData) {
-    _mobxUser.hydrate(initialData)
+    _mobxUser.hydrate(initialData);
+    _mobxUI.hydrate(initialData);
   }
   // For SSG and SSR always create a new store
-  if (typeof window === 'undefined') return _mobxUser
+  if (typeof window === 'undefined') return {
+    MOBXUser: _mobxUser,
+    MOBXui: _mobxUI
+  }
   // Create the store once in the client
-  if (!mobxUser) mobxUser = _mobxUser
+  if (!mobxUser) mobxUser = _mobxUser;
+  if (!mobxUI) mobxUI = _mobxUI;
 
   return {
-    MOBXUser: _mobxUser
+    MOBXUser: _mobxUser,
+    MOBXui: _mobxUI
   }
 }

@@ -16,8 +16,8 @@ export default catchErrorsApi( async (req, res) => {
 
     const token = await userService.logout( refreshToken );
 
-    removeCookies( "refreshToken", {req, res});
-
+    removeCookies( "refreshToken", {req, res, path: '/'});
+    
     return res.json(token);
 
 })

@@ -2,13 +2,13 @@ import nodemailer from "nodemailer";
 
 class MailService {
 
-    constructor(){
+    constructor() {
 
         this.transport = nodemailer.createTransport({
             host: process.env.NEXT_PRIVATE_MAIL_ACTIVATE_LINK_SMTP_HOST,
             port: process.env.NEXT_PRIVATE_MAIL_ACTIVATE_LINK_SMTP_PORT,
             secure: false,
-            auth:{
+            auth: {
                 user: process.env.NEXT_PRIVATE_MAIL_ACTIVATE_LINK_SMTP_USER,
                 pass: process.env.NEXT_PRIVATE_MAIL_ACTIVATE_LINK_SMTP_PASSWORD,
             }
@@ -16,8 +16,8 @@ class MailService {
 
     }
 
-    async sendActivationMail( to, link ){
-        
+    async sendActivationMail(to, link) {
+
         await this.transport.sendMail({
             from: process.env.NEXT_PRIVATE_MAIL_ACTIVATE_LINK_SMTP_USER,
             to: to,
@@ -25,8 +25,8 @@ class MailService {
             text: "",
             html: `
                 <div>
-                    <h1>Для активации аккаунта перейдите по ссылке</h1>
-                    <a href="${link}">${link}</a>
+                    <h1>Для активации аккаунта перейдите по ссылке ниже</h1>
+                    ${link}
                 </div>
             `
         });

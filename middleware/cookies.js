@@ -95,9 +95,12 @@ export function setCookies(key, data, options={}){
 					return accum.concat(`${item[0]}=${item[1]};`)
 				}, '');
 			}
+
 		}
 	} else {
+
 		document.cookie = cookieStr;
+
 	}
 };
 

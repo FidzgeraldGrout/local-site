@@ -1,17 +1,25 @@
-import Link from 'next/link';
 import { useStore } from "../hight/StoreProvider";
 import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
 import { HomeIcon, UserCircleIcon } from '@heroicons/react/solid';
-import FNavbarLink from '../low/FNavbarLink';
-import FNavbarProfile from '../low/FNavbarProfile/FNavbarProfile';
+import FNavbarProfile from '../low/FNavbarProfile';
+import FNextLink from '../low/FNextLink';
 
 const FNavbar = observer(function FNavbar() {
 
     const router = useRouter();
 
-    // use store from the store context
     const user = useStore().MOBXUser;
+
+    const logout = async (event) => {
+
+        event.preventDefault()
+
+        await user.logout();
+
+        router.push('/');
+
+    }
 
     return (
 
@@ -31,28 +39,28 @@ const FNavbar = observer(function FNavbar() {
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 
                     {router.pathname != "/" &&
-                        <Link href="/" passHref>
-                            <FNavbarLink >
-                                <HomeIcon className="h-8 w-8 block md:hidden" />
-                                <p className="text-color_G hidden md:block">На главную</p>
-                            </FNavbarLink>
-                        </Link>
+                        <FNextLink
+                            href="/"
+                            className='text-color_C hover:bg-color_C hover:text-color_G px-3 py-2 rounded-md text-sm font-bold font-font_B'
+                        >
+                            <HomeIcon className="h-8 w-8 block md:hidden" />
+                            <p className="text-color_G hidden md:block">На главную</p>
+                        </FNextLink>
                     }
 
                     {user?.isAuth ?
-                        <FNavbarProfile />
-                        // <Link href="/" >
-                        //     <a className='text-color_G hover:bg-color_C hover:text-color_G px-3 py-2 rounded-md text-sm font-bold font-font_B'>
-                        //         {user.user?.email}
-                        //     </a>
-                        // </Link>
+                        <FNavbarProfile
+                            userInitials={user?.user?.login}
+                            logout={logout}
+                        />
                         : router.pathname != "/authorization/login" && router.pathname != "/authorization/registration" &&
-                        <Link href="/authorization/login" >
-                            <FNavbarLink >
-                                <UserCircleIcon className="h-8 w-8 block md:hidden" />
-                                <p className="text-color_G hidden md:block">Войти</p>
-                            </FNavbarLink>
-                        </Link>
+                        <FNextLink
+                            href="/authorization/login"
+                            className='text-color_C hover:bg-color_C hover:text-color_G px-3 py-2 rounded-md text-sm font-bold font-font_B'
+                        >
+                            <UserCircleIcon className="h-8 w-8 block md:hidden" />
+                            <p className="text-color_G hidden md:block">Войти</p>
+                        </FNextLink>
                     }
 
                 </div>

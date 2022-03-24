@@ -11,6 +11,23 @@ export class ApiError extends Error {
 
     }
 
+    responceClient(){
+
+        const blob = new Blob(
+            [ JSON.stringify({ message: this.message, errors: this.errors } ) ], 
+            { type:'application/json' }
+            );
+
+        return new Response( blob, { status: this.statusCode } );
+
+    }
+
+    responceServer(){
+
+        return new Response( this.message, { status: this.statusCode } );
+
+    }
+
     static UnauthorizedError() {
         return new ApiError(401, "Пользователь не авторизован");
     }
@@ -42,31 +59,21 @@ export function catchErrorsMiddleware(handler) {
     return async (req, ev) => {
         return handler(req, ev)
             .catch((error) => {
-
-                var blob;
-                var code;
                 
                 if( error instanceof ApiError ){
 
-                    blob = new Blob(
-                        [JSON.stringify({ message: error.message, errors: error.errors } )], 
-                        { type:'application/json' }
-                        );
-
-                    code = error.statusCode;
+                    return error.responceClient();
 
                 }else{
 
-                    blob = new Blob(
+                    const blob = new Blob(
                         [JSON.stringify( { message: `Непредвиденная ошибка: ${error.message || error}`, errors: [] } )], 
                         { type:'application/json' }
                         );
 
-                    code = 500;
+                    return new Response( blob, { status: 500 } );
 
                 }
-
-                return new Response( blob, { status: code } );
 
             });
     }

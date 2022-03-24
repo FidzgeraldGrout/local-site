@@ -19,6 +19,7 @@ export default catchErrorsApi( async (req, res) => {
         res,
         maxAge: ms(process.env.NEXT_PRIVATE_JWT_REFRESH_EXPIRES_IN)/1000,
         httpOnly: true,
+        path: '/'
     });
 
     return res.json(userData);

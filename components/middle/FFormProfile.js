@@ -1,4 +1,10 @@
+import { FInputLogin } from "../low/FInputLogin";
+import { FInputEmail } from "../low/FInputEmail";
+import { FInputPassword } from "../low/FInputPassword";
 import { motion } from "framer-motion";
+import { useState, useEffect } from 'react'
+import Link from 'next/link';
+import { ApiError } from "../../middleware/exceptions";
 import { useStore } from "../hight/StoreProvider";
 import { observer } from 'mobx-react-lite'
 
@@ -17,7 +23,7 @@ const inputs = {
     },
 };
 
-const FFormActivateLink = observer(function FFormActivateLink() {
+const FFormProfile = observer(function FFormProfile() {
 
     /*
         Использование глобальных данных
@@ -35,7 +41,7 @@ const FFormActivateLink = observer(function FFormActivateLink() {
             className="flex flex-col w-full text-center"
         >
             <p className="text-xl sm:text-2xl px-5 pt-10 font-medium text-color_B title-font">
-                Вам необходимо активировать аккаунт по ссылке в письме, отправленной на почту <i>{user?.user?.email}</i>
+                Профиль
             </p>
         </motion.div>
     );
@@ -43,4 +49,4 @@ const FFormActivateLink = observer(function FFormActivateLink() {
 });
 
 
-export default FFormActivateLink;
+export default FFormProfile;

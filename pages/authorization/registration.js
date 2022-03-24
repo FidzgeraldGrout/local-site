@@ -5,8 +5,7 @@ import { motion } from "framer-motion";
 const content = (isFirstMount) => ({
   animate: {
     transition: {
-      staggerChildren: isFirstMount ? 0.5 : 0.15,
-      // delayChildren: isFirstMount ? 2.8 : 0
+      staggerChildren: isFirstMount ? 0.5 : 0.15
     },
   },
 });
