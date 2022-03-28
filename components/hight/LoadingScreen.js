@@ -1,15 +1,10 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
-// import { useEffect } from 'react';
-import { useStore } from "../hight/StoreProvider";
+import { useStore } from "./StoreProvider";
 
-const FLoadingScreen = observer(function FLoadingScreen() {
+const LoadingScreen = observer(function FLoadingScreen() {
 
     const mobxUI = useStore().MOBXui;
-
-    // useEffect(() => {
-
-    // });
 
     return (
         <div 
@@ -18,4 +13,4 @@ const FLoadingScreen = observer(function FLoadingScreen() {
     );
 });
 
-export default FLoadingScreen;
+export default LoadingScreen;

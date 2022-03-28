@@ -31,7 +31,7 @@ export default function FFormRegistration() {
 
     const router = useRouter();
 
-    const { MOBXUser, MOBXui } = useStore();
+    const { MOBXuser, MOBXui } = useStore();
 
     /*
         Данные формы
@@ -85,7 +85,7 @@ export default function FFormRegistration() {
 
         try {
 
-            await MOBXUser.registration( inputLogin, inputEmail, inputPassword );
+            await MOBXuser.registration( inputLogin, inputEmail, inputPassword );
 
             router.push('/authorization/activatelink');
 

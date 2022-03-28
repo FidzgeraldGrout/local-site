@@ -10,10 +10,8 @@ export default function FNavbarProfile({ userInitials, logout }) {
 
   return (
     <Disclosure as="nav" className="bg-color_A">
-
       {({ open }) => (
-        <Menu as="div" className="ml-3 relative">
-          <div>
+        <Menu as="div" className="ml-3 relative items-center content-center">
             <Menu.Button
               className="bg-color_A flex text-sm rounded-full 
               focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-color_A focus:ring-white">
@@ -24,7 +22,6 @@ export default function FNavbarProfile({ userInitials, logout }) {
                 alt=""
               />
             </Menu.Button>
-          </div>
           <Transition
             as={Fragment}
             enter="transition ease-out duration-100"

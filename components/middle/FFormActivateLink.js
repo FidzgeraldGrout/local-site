@@ -23,7 +23,7 @@ const FFormActivateLink = observer(function FFormActivateLink() {
         Использование глобальных данных
     */
 
-    const user = useStore().MOBXUser;
+    const user = useStore().MOBXuser;
 
     /*
         ---------------
@@ -41,6 +41,5 @@ const FFormActivateLink = observer(function FFormActivateLink() {
     );
 
 });
-
 
 export default FFormActivateLink;

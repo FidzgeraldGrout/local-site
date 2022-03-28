@@ -1,4 +1,4 @@
-import { action, observable, makeObservable } from 'mobx';
+import { action, observable, makeObservable, runInAction } from 'mobx';
 import { enableStaticRendering } from 'mobx-react-lite';
 
 enableStaticRendering(typeof window === 'undefined')
@@ -9,25 +9,21 @@ export default class MOBXui {
     constructor() {
         makeObservable(this, {
             isLoading: observable,
-            setLoading: action,
+            setLoading: action
         })
     }
 
     setLoading() {
 
-        if( this.isLoading ){
-            
-            setTimeout( ()=>this.isLoading = false, 1000)
+        if (this.isLoading) {
 
-        }else{
+            setTimeout(() => runInAction(() => this.isLoading = false), 1000)
+
+        } else {
 
             this.isLoading = true;
 
         }
 
-    }
-
-    hydrate = (data) => {
-        if (!data) return
     }
 }

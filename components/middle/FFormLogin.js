@@ -27,7 +27,7 @@ export default function FFormLogin( { redirectAuth } ) {
 
     const router = useRouter();
 
-    const { MOBXUser, MOBXui } = useStore();
+    const { MOBXuser, MOBXui } = useStore();
     
     /*
         Данные формы
@@ -70,7 +70,7 @@ export default function FFormLogin( { redirectAuth } ) {
 
         try {
 
-            await MOBXUser.login(inputEmail, inputPassword).then(()=>{
+            await MOBXuser.login(inputEmail, inputPassword).then(()=>{
 
                 router.push( redirectAuth ? redirectAuth : '/dashboard' );
                 

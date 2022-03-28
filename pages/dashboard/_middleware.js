@@ -18,7 +18,6 @@ function redirect( to, from ){
 }
 
 export default catchErrorsMiddleware(async (req, ev) => {
-
     const refreshToken = req.cookies['refreshToken'];
     
     if (refreshToken) {
@@ -37,9 +36,9 @@ export default catchErrorsMiddleware(async (req, ev) => {
             }
             
             if (req.nextUrl.pathname == "/dashboard")
-                return NextResponse.rewrite(`${process.env.NEXT_PUBLIC_CLIENT_URL}/dashboard/profile`);
+                return NextResponse.rewrite(`${process.env.NEXT_PUBLIC_CLIENT_URL}/dashboard/profile`).clearCookie('redirectAuth');
             else {
-                return NextResponse.next();
+                return NextResponse.next().clearCookie('redirectAuth');
             }
 
         }

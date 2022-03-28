@@ -1,7 +1,7 @@
 import Head from 'next/head'
 // import FFormProfile from '../../components/middle/FFormProfile';
 import { motion } from "framer-motion";
-import { catchAuthPage } from '../../middleware/auth';
+import catchAuthServer from '../../middleware/authServer';
 
 const content = (isFirstMount) => ({
   animate: {
@@ -34,7 +34,7 @@ export default function Users({ isFirstMount }) {
   )
 }
 
-export const getServerSideProps = catchAuthPage( async(context) => {
+export const getServerSideProps = catchAuthServer( async(context) => {
   
   return {
     props: {}

@@ -20,7 +20,7 @@ function redirect( to, from, req, res ){
     }
 }
 
-export function catchAuthPage(handler) {
+export default function catchAuthServer(handler) {
 
     return async (context) => {
 

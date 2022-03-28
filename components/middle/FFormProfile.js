@@ -10,18 +10,18 @@ import { observer } from 'mobx-react-lite'
 
 const inputs = {
     initial: {
-        y: -20,
-        opacity: 0
+      y: -20,
+      opacity: 0
     },
     animate: {
-        y: 0,
-        opacity: 1,
-        transition: {
-            duration: 0.7,
-            ease: [0.6, -0.05, 0.01, 0.99],
-        },
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.7,
+        ease: [0.6, -0.05, 0.01, 0.99],
+      },
     },
-};
+  };
 
 const FFormProfile = observer(function FFormProfile() {
 
@@ -29,7 +29,7 @@ const FFormProfile = observer(function FFormProfile() {
         Использование глобальных данных
     */
 
-    const user = useStore().MOBXUser;
+    const user = useStore().MOBXuser;
 
     /*
         ---------------
@@ -38,9 +38,9 @@ const FFormProfile = observer(function FFormProfile() {
     return (
         <motion.div
             variants={inputs}
-            className="flex flex-col w-full text-center"
+            className="flex flex-auto justify-center text-center"
         >
-            <p className="text-xl sm:text-2xl px-5 pt-10 font-medium text-color_B title-font">
+            <p className="text-xl sm:text-2xl pt-10 font-medium text-color_B title-font">
                 Профиль
             </p>
         </motion.div>

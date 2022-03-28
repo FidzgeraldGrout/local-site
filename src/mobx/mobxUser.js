@@ -1,5 +1,6 @@
 import { action, observable, runInAction, makeObservable } from 'mobx';
 import { enableStaticRendering } from 'mobx-react-lite';
+// import useSWR from 'swr';
 import fetchAuth from "../../middleware/requests";
 
 enableStaticRendering(typeof window === 'undefined')
@@ -16,11 +17,7 @@ export default class MOBXuser {
             setUser: action,
             login: action,
             registration: action,
-            logout: action,
-            checkAuth: action,
-            startRefreshAuth: action,
-            stopRefreshAuth: action,
-            hydrate: action
+            logout: action
         })
     }
 
@@ -39,7 +36,6 @@ export default class MOBXuser {
             localStorage.setItem('token', responce.accessToken);
             this.setAuth(true);
             this.setUser(responce.user);
-            this.startRefreshAuth();
 
         } catch (error) {
 
@@ -57,7 +53,6 @@ export default class MOBXuser {
             localStorage.setItem('token', responce.accessToken);
             this.setAuth(true);
             this.setUser(responce.user);
-            this.startRefreshAuth();
 
         } catch (error) {
 
@@ -74,7 +69,6 @@ export default class MOBXuser {
 
             await fetchAuth('/authorization/logout');
             localStorage.removeItem('token');
-            this.stopRefreshAuth();
 
         } catch (error) {
 
@@ -88,57 +82,24 @@ export default class MOBXuser {
         }
     }
 
-    checkAuth() {
+    loadAuth() {
 
-        return new Promise(async(resolve, reject) => {
+        return new Promise(async (resolve) => {
 
             try {
-            
                 const responce = await fetchAuth('/authorization/refresh');
                 localStorage.setItem('token', responce.accessToken);
                 this.setAuth(true);
                 this.setUser(responce.user);
-                this.startRefreshAuth();
-                resolve();
-
-            } catch (error) {
-                // console.log(error);
+            } catch {
                 this.setAuth(false);
                 this.setUser({});
-                reject(error);
-    
+            } finally {
+                return resolve();
             }
 
         })
-        
+
     }
 
-    startRefreshAuth = () => {
-        this.timer = setInterval(async() => {
-            runInAction(async() => {
-                try {
-
-                    const responce = await fetchAuth('/authorization/refresh');
-                    localStorage.setItem('token', responce.accessToken);
-                    this.setAuth(true);
-                    this.setUser(responce.user);
-
-                } catch (error) {
-
-                    this.setAuth(false);
-                    this.setUser({});
-
-                }
-            })
-        }, 60000)
-    }
-
-    stopRefreshAuth = () => clearInterval(this.timer)
-
-    hydrate = (data) => {
-        if (!data) return
-
-        //   this.lastUpdate = data.lastUpdate !== null ? data.lastUpdate : Date.now()
-        //   this.light = !!data.light
-    }
 }

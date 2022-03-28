@@ -2,10 +2,10 @@ import '../styles/globals.css';
 import { useState, useEffect } from 'react';
 import { AnimatePresence } from "framer-motion";
 import AppLayout from "../components/hight/AppLayout";
+import FLoadingScreen from "../components/hight/LoadingScreen";
 import { StoreProvider } from '../components/hight/StoreProvider';
 
 export default function App({ Component, pageProps, router }) {
-
 
   const [isFirstMount, setIsFirstMount] = useState(true);
 
@@ -24,12 +24,17 @@ export default function App({ Component, pageProps, router }) {
   }, []);
 
   return (
-    <StoreProvider {...pageProps}>
+    <StoreProvider
+      {...pageProps}
+    >
       <AnimatePresence exitBeforeEnter>
         <AppLayout
           key="Layout"
           isFirstMount={isFirstMount}
         >
+          <FLoadingScreen
+            key="LoadingScreen"
+          />
           <Component
             isFirstMount={isFirstMount}
             key={router.route}
