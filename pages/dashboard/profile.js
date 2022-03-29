@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { motion } from "framer-motion";
-import FSidebar from '../../components/middle/FSideBar';
+import FSidebar from '../../components/middle/FSidebar';
 import FFormProfile from '../../components/middle/FFormProfile';
 
 const content = (isFirstMount) => ({

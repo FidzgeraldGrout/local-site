@@ -37,10 +37,17 @@ function Login({ isFirstMount, redirectAuth }) {
 
 Login.getInitialProps = async ({ req, res }) => {
 
+  // const redirectAuth = req.cookies['redirectAuth'];
+
+  // console.log(req.cookies['redirectAuth']);
+  // console.log(redirectAuth);
+
   const redirectAuth = getCookie("redirectAuth", {
     req,
     res
   });
+
+  // console.log(redirectAuth);
 
   return { redirectAuth }
 }

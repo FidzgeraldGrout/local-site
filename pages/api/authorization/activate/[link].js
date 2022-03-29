@@ -2,7 +2,7 @@ import ms from 'ms';
 import userService from "../../../../src/auth/service/userService";
 import { catchErrorsApi } from '../../../../middleware/exceptions';
 import checkCors from "../../../../middleware/cors";
-import { setCookies } from '../../../../middleware/cookies';
+import { setCookies, getCookie } from '../../../../middleware/cookies';
 
 export default catchErrorsApi(async (req, res) => {
 
