@@ -1,7 +1,6 @@
 import { useStore } from "../hight/StoreProvider";
 import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
 import { UsersIcon, HomeIcon, UserCircleIcon } from '@heroicons/react/solid';
 import FNavbarProfile from '../low/FNavbarProfile';
 import FNextLink from '../low/FNextLink';
@@ -16,8 +15,8 @@ const blackBox = {
         transition: {
             duration: 0.7,
             ease: [0.6, -0.05, 0.01, 0.99],
-            when: "beforeChildren",
-            staggerChildren: 0.5
+            // when: "beforeChildren",
+            staggerChildren: 0.2
         },
     },
     hidden: {
@@ -40,7 +39,7 @@ const itemMotion = {
         x: 0,
         opacity: 1,
         transition: {
-            duration: 0.7,
+            duration: 0.3,
             ease: [0.6, -0.05, 0.01, 0.99],
         },
     },
@@ -79,8 +78,9 @@ const FNavbar = observer(function FNavbar() {
     return (
 
         // ${isSidebar ? 'h-20' : 'h-screen md:h-20'}
+        
         <nav
-            className='w-full'
+            className="fixed z-40 w-full"
             id="FNavbar"
             animate={isSidebar}
             variants={blackBox}
@@ -95,10 +95,7 @@ const FNavbar = observer(function FNavbar() {
             ) : null}
 
             {/* md:flex md:items-center md:justify-center */}
-            <div className={`fixed w-full h-20 bg-color_A
-                        grid grid-cols-3 
-                        px-2 sm:px-6 lg:px-8 
-                        ${user?.isAuth ? 'xl:pr-28 2xl:pr-80' : 'xl:px-28 2xl:px-80'}`}>
+            <div className={`fixed w-full h-20 bg-color_A grid grid-cols-3 px-2 sm:px-6 lg:px-8 ${user?.isAuth ? 'xl:pr-28 2xl:pr-80' : 'xl:px-28 2xl:px-80'}`}>
 
                 <div
                     className="flex items-center justify-center
@@ -189,11 +186,12 @@ const FNavbar = observer(function FNavbar() {
                                 >
                                     <a
                                         onClick={toggle}
-                                        className="flex items-center mt-4 py-2 px-4 bg-color_B bg-opacity-25 text-color_F"
+                                        className={`flex items-center mt-4 py-2 px-4 bg-color_B text-color_F
+                                        ${router.pathname == item.url ? '' : 'bg-opacity-25'}`}
                                         key={`navItem${item.id}`}
                                     >
                                         {item.icon}
-                                        <p className="mx-3 text-color_G">{item.text}</p>
+                                        <p className="mx-3">{item.text}</p>
                                     </a>
                                 </Link>
                             </motion.div>

@@ -15,7 +15,7 @@ export default function Profile({ isFirstMount }) {
   return (
     <>
       <Head>
-        <title>Активация</title>
+        <title>Профиль</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <motion.section
@@ -25,15 +25,17 @@ export default function Profile({ isFirstMount }) {
           initial="initial"
           animate="animate"
           variants={content(isFirstMount)}
-          className="flex w-screen min-h-full"
+          className="flex overflow-hidden"
         >
-          <FSidebar/>
+          {/* <FSidebar /> */}
           <FFormProfile/>
         </motion.div>
       </motion.section>
     </>
   )
 }
+
+Profile.onSidebar = true;
 
 export async function getStaticProps(context) {
   return {

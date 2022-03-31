@@ -1,6 +1,7 @@
 import { UsersIcon, UserCircleIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { motion } from "framer-motion";
+import { useRouter } from 'next/router';
 
 const itemList = [
     { id: 1, text: 'Профиль', url: '/dashboard/profile', icon: <UserCircleIcon className="h-6 w-6" /> },
@@ -40,9 +41,15 @@ const itemMotion = {
 };
 
 export default function FSidebar() {
+
+    const router = useRouter();
+    console.log();
     return (
-        <div
-            className="hidden md:block"
+
+        <aside
+            id="sidebar"
+            className="fixed hidden z-20 md:flex h-full pt-20"
+            aria-label="Sidebar"
         >
             <motion.nav
                 initial="initial"
@@ -62,18 +69,19 @@ export default function FSidebar() {
                                 key={`navItem${item.id}`}
                             >
                                 <a
-                                    className="flex items-center mt-4 py-2 px-4 bg-color_B bg-opacity-25 text-color_F"
+                                    className={`flex items-center mt-4 py-2 px-4 bg-color_C text-color_F
+                                    ${router.pathname == item.url ? '' : 'bg-opacity-25'}`}
                                     key={`navItem${item.id}`}
                                 >
                                     {item.icon}
-                                    <p className="mx-3 text-color_G">{item.text}</p>
+                                    <p className="mx-3">{item.text}</p>
                                 </a>
                             </Link>
                         </motion.div>
                     )
                 })}
             </motion.nav>
-        </div>
+        </aside>
     );
 
 }
