@@ -18,6 +18,8 @@ module.exports = {
       },
       screens: {
         'mm': '375px',
+        'fl': '1920px',
+        '2fl': '2240px',
       },
     },
   },

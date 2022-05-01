@@ -27,23 +27,24 @@ export default function App({ Component, pageProps, router }) {
     <StoreProvider
       {...pageProps}
     >
-      <AnimatePresence exitBeforeEnter>
-        <>
-          <FLoadingScreen
-            key="LoadingScreen"
+
+      <FLoadingScreen
+        key="LoadingScreen"
+      />
+
+      <AppLayout
+        key="Layout"
+        onSidebar={Component.onSidebar}
+      >
+        <AnimatePresence exitBeforeEnter>
+          <Component
+            isFirstMount={isFirstMount}
+            key={router.route}
+            {...pageProps}
           />
-          <AppLayout
-            key="Layout"
-            onSidebar={Component.onSidebar}
-          >
-            <Component
-              isFirstMount={isFirstMount}
-              key={router.route}
-              {...pageProps}
-            />
-          </AppLayout>
-        </>
-      </AnimatePresence>
+        </AnimatePresence>
+      </AppLayout>
+
     </StoreProvider>
   )
 

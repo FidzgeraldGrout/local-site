@@ -9,7 +9,7 @@ export default function AppLayout({ onSidebar, children }) {
         <div className="flex flex-col min-h-screen">
             <FNavbar />
             {onSidebar ? <FSidebar/>: null }
-            <main className="pt-20" >{children}</main>
+            <main className="pt-20 pb-16 flex grow" >{children}</main>
             <FFooter />
         </div>
     );

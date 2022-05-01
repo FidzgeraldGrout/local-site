@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from 'react';
-import { FSplitText } from "../low/FSplitText";
+import { FSplitWord } from "../low/FSplitWord";
 
 const content = {
   initial: {
@@ -76,19 +76,19 @@ export default function InitialTransition() {
       onAnimationComplete={() => {
         document.body.classList.remove("overflow-hidden")
         // document.querySelector("#InitialTransition").classList.add("absolute");
-        document.querySelector("#InitialTransition").classList.add("invisible");
+        document.querySelector("#InitialTransition").classList.add("hidden");
       }}
     >
       <motion.div
         className="absolute z-50 flex items-center justify-center w-full bg-color_A"
         variants={blackBoxTop}
       >
-        <FSplitText
+        <FSplitWord
           className="text-xl md:text-4xl text-color_E font-font_B"
           variants={text}
         >
-          Добро пожаловать
-        </FSplitText>
+          Д о б р о  п о ж а л о в а т ь
+        </FSplitWord>
 
       </motion.div>
 

@@ -35,6 +35,7 @@ const text = {
 };
 
 export default function Custom404({ isFirstMount }) {
+  
   return (
     <div className="m-auto">
       <Head>
